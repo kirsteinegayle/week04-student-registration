@@ -23,6 +23,11 @@
     </div>
 @endif
 
+<div id="jsErrorSummary" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl mb-6 hidden">
+    <strong class="block mb-1 font-heading">⚠️ Please fix the following:</strong>
+    <ul id="jsErrorList" class="list-disc list-inside text-sm"></ul>
+</div>
+
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
     {{-- FORM --}}
@@ -260,6 +265,11 @@
         return isValid;
     }
 
+    function getFieldLabel(field) {
+        const label = field.closest('div').querySelector('label');
+        return label ? label.textContent.replace('*', '').trim() : field.name;
+    }
+
     form.querySelectorAll('[data-required], [data-email], [data-numeric]').forEach(field => {
         field.addEventListener('blur', () => validateField(field));
         field.addEventListener('input', () => {
@@ -270,12 +280,27 @@
 
     form.addEventListener('submit', function (e) {
         let allValid = true;
+        const errorMessages = [];
+
         form.querySelectorAll('[data-required], [data-email], [data-numeric]').forEach(field => {
-            if (!validateField(field)) allValid = false;
+            const valid = validateField(field);
+            if (!valid) {
+                allValid = false;
+                const errorEl = field.parentElement.querySelector('.field-error');
+                errorMessages.push(errorEl ? errorEl.textContent : getFieldLabel(field) + ' is required.');
+            }
         });
+
+        const summaryBox = document.getElementById('jsErrorSummary');
+        const summaryList = document.getElementById('jsErrorList');
+
         if (!allValid) {
             e.preventDefault();
-            form.querySelector('.border-red-400')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            summaryList.innerHTML = errorMessages.map(msg => `<li>${msg}</li>`).join('');
+            summaryBox.classList.remove('hidden');
+            summaryBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        } else {
+            summaryBox.classList.add('hidden');
         }
     });
 </script>
