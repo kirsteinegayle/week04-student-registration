@@ -41,3 +41,28 @@ When a student submits the registration form, the request goes through the follo
 7. **Response** — After the record is saved, the controller redirects the student to their profile page (`students.show`) with a flash success message, which is displayed using Laravel's session flash data.
 
 *(See `documentation/request-lifecycle.png` for a visual diagram of this flow.)*
+
+
+## Validation Rules
+
+The registration form enforces the following server-side validation rules using Laravel's `$request->validate()`:
+
+| Field | Rule | Why It Matters |
+|---|---|---|
+| `student_id` | `required\|unique:students` | Ensures every student has an ID and prevents duplicate registrations under the same ID. |
+| `first_name`, `last_name` | `required\|string\|max:100` | Ensures core identity fields are always provided and prevents excessively long input. |
+| `middle_name` | `nullable\|string\|max:100` | Optional field — not every student has a middle name, so it is allowed to be empty. |
+| `email` | `required\|email\|unique:students` | Confirms the email is in a valid format and prevents two students from registering with the same email address. |
+| `mobile_number` | `required\|numeric` | Prevents letters or symbols from being entered into a field meant only for a phone number. |
+| `date_of_birth` | `required\|date` | Ensures the value is a valid, parseable date rather than arbitrary text. |
+| `gender`, `program`, `year_level` | `required` | These are essential classification fields used for student records and reporting. |
+| `address` | `required\|string` | Ensures contact/location information is always captured. |
+| `profile_picture` | `required\|image\|mimes:jpg,jpeg,png\|max:2048` | Restricts uploads to actual image files (jpg, jpeg, png) under 2MB, preventing malicious file uploads and oversized files from being stored on the server. |
+
+### Required vs. Unique Constraints
+- **Required** rules prevent blank submissions — without them, incomplete student records could be saved to the database.
+- **Unique** constraints (on `student_id` and `email`) protect data integrity by preventing duplicate student accounts.
+
+### Client-Side vs. Server-Side Validation
+In addition to Laravel's server-side validation, this project includes **JavaScript client-side validation** that gives students instant feedback (red field outlines and inline error messages) before the form is even submitted. However, server-side validation remains the primary line of defense, since client-side checks can be bypassed (e.g., by disabling JavaScript). Both layers work together to create a smooth user experience while keeping the data secure.
+
