@@ -20,3 +20,24 @@ At the end of this activity, the following learning objectives were accomplished
 6. Designed and implemented a relational database table.
 7. Documented the software development process using Markdown.
 8. Applied Git version control and portfolio-building practices.
+
+
+## Laravel Request Lifecycle
+
+When a student submits the registration form, the request goes through the following stages in Laravel:
+
+1. **Browser** — The student fills out the registration form and clicks "Register Student." The browser sends a `POST` request to `/students`, including the form data and the uploaded profile picture.
+
+2. **Route** — Laravel's router (`routes/web.php`) matches the incoming request to the `students.store` route, which points to the `store()` method in `StudentController`.
+
+3. **Controller** — The `StudentController@store` method receives the request. This is where the request is processed before anything touches the database.
+
+4. **Validation** — Inside the controller, `$request->validate()` checks every field against the defined rules (required, unique, email, numeric, image, etc.). If validation fails, Laravel automatically redirects back to the form with error messages and the old input. If it passes, execution continues.
+
+5. **Model** — Once validation passes, the profile picture is stored using Laravel Storage, and the validated data (including the picture's file path) is passed to the `Student` model via `Student::create()`.
+
+6. **Database** — The Eloquent ORM translates `Student::create()` into an `INSERT` SQL statement, saving the new student record into the `students` table in MySQL.
+
+7. **Response** — After the record is saved, the controller redirects the student to their profile page (`students.show`) with a flash success message, which is displayed using Laravel's session flash data.
+
+*(See `documentation/request-lifecycle.png` for a visual diagram of this flow.)*
