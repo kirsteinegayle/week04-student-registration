@@ -117,6 +117,8 @@ This flow mirrors the actual implementation: form submission triggers Laravel's 
 ### 8.1 Registration Form
 ![Registration Form](screenshots/registration-form.png)
 
+![Registration Form](screenshots/registration-form2.png)
+
 ### 8.2 Validation Errors
 ![Validation Errors](screenshots/validation-errors.png)
 
@@ -124,16 +126,16 @@ This flow mirrors the actual implementation: form submission triggers Laravel's 
 ![Success Message](screenshots/success-message.png)
 
 ### 8.4 Uploaded Profile Picture
-![Uploaded Profile Picture](screenshots/uploaded-profile-picture.png)
+![Uploaded Profile Picture](screenshots/profile-picture.png)
 
 ### 8.5 Database Table
-![Database Table](screenshots/database-records.png)
+![Database Table](screenshots/database-table.png)
 
 ### 8.6 Student Profile Page
-![Student Profile Page](screenshots/profile.png)
+![Student Profile Page](screenshots/student-profile.png)
 
 ### 8.7 VS Code Project Structure
-![VS Code Project Structure](screenshots/folder-structure.png)
+![VS Code Project Structure](screenshots/vscode-structure.png)
 
 ### 8.8 GitHub Repository
 ![GitHub Repository](screenshots/github-repo.png)
