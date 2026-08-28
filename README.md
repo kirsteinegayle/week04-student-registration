@@ -1,6 +1,12 @@
 # CCS Student Portal — Student Registration System
 
-## 1. Project Overview
+## 1. Project Title
+
+**CCS Student Portal** — a Student Registration System built with Laravel, MySQL, and Tailwind CSS.
+
+---
+
+## 2. Introduction
 
 The College of Computer Studies (CCS) is transitioning from paper-based student registration to a digital registration system. This project, the **CCS Student Portal**, is a Student Registration System built using Laravel that allows students to register online while ensuring that submitted information is valid, secure, and stored correctly.
 
@@ -10,7 +16,7 @@ Registration systems like this one play a foundational role in enterprise applic
 
 ---
 
-## 2. Objectives
+## 3. Objectives
 
 At the end of this activity, the following learning objectives were accomplished:
 
@@ -25,7 +31,7 @@ At the end of this activity, the following learning objectives were accomplished
 
 ---
 
-## 3. Laravel Request Lifecycle
+## 4. Laravel Request Lifecycle
 
 When a student submits the registration form, the request goes through the following stages in Laravel:
 
@@ -43,7 +49,7 @@ When a student submits the registration form, the request goes through the follo
 
 ---
 
-## 4. Validation Rules
+## 5. Validation Rules
 
 The registration form enforces the following server-side validation rules using Laravel's `$request->validate()`:
 
@@ -64,7 +70,7 @@ This project includes JavaScript client-side validation that gives students inst
 
 ---
 
-## 5. Database Design
+## 6. Database Design
 
 ### Entity Relationship Diagram (ERD)
 
@@ -98,7 +104,7 @@ This project includes JavaScript client-side validation that gives students inst
 
 ---
 
-## 6. Registration Flowchart
+## 7. Flowchart
 
 ![Registration Flowchart](docs/registration-flowchart.png)
 
@@ -106,41 +112,43 @@ This flow mirrors the actual implementation: form submission triggers Laravel's 
 
 ---
 
-## 7. Screenshots
+## 8. Screenshots
 
-### 7.1 Registration Form
+### 8.1 Registration Form
 ![Registration Form](screenshots/registration-form.png)
 
-### 7.2 Validation Errors
+### 8.2 Validation Errors
 ![Validation Errors](screenshots/validation-errors.png)
 
-### 7.3 Successful Registration & Flash Message
+### 8.3 Successful Registration & Flash Message
 ![Success Message](screenshots/success-message.png)
 
-### 7.4 Uploaded Profile Picture
+### 8.4 Uploaded Profile Picture
 ![Uploaded Profile Picture](screenshots/uploaded-profile-picture.png)
 
-### 7.5 Database Table
+### 8.5 Database Table
 ![Database Table](screenshots/database-records.png)
 
-### 7.6 Student Profile Page
+### 8.6 Student Profile Page
 ![Student Profile Page](screenshots/profile.png)
 
-### 7.7 VS Code Project Structure
+### 8.7 VS Code Project Structure
 ![VS Code Project Structure](screenshots/folder-structure.png)
 
-### 7.8 GitHub Repository
+### 8.8 GitHub Repository
 ![GitHub Repository](screenshots/github-repo.png)
 
 ---
 
-## 8. Problems Encountered
+## 9. Problems Encountered
 
 1. **MySQL server not running / wrong port** — When first trying to connect Laravel to the database, MySQL was not running, and the XAMPP MySQL instance turned out to be running on port 3307 instead of the default 3306.
 2. **Duplicate class declaration in StudentController.php** — A `ParseError` occurred because the controller file ended up with duplicated content (two `<?php` opening tags and two `class StudentController` declarations).
 3. **MassAssignmentException** — When saving validated data to the database, Laravel blocked the operation because the `Student` model did not yet define a `$fillable` property.
 
-## 9. Solutions
+---
+
+## 10. Solutions
 
 1. **Fixing the MySQL connection** — Started the MySQL80 Windows service (and alternatively the MySQL module in XAMPP Control Panel), confirmed the actual port it was running on (3307), and updated `DB_PORT` in the `.env` file to match.
 2. **Fixing the duplicate controller content** — Selected all content in `StudentController.php`, deleted it completely, and re-pasted a single clean copy of the controller code.
@@ -148,21 +156,21 @@ This flow mirrors the actual implementation: form submission triggers Laravel's 
 
 ---
 
-## 10. Reflection
+## 11. Reflection
 
-Completing this Student Registration System activity gave me a deeper appreciation for how important validation is in web development. Before this project, I understood validation as just "checking if a field is empty," but working through this activity showed me it goes far beyond that. While building the system, I actually ran into a MassAssignmentException because I forgot to define the $fillable property in my Student model — Laravel refused to save the data until I explicitly told it which fields were safe to mass-assign. That experience made it clear that validation and data protection aren't just formalities; they are built-in safeguards that prevent incomplete, incorrect, or unauthorized data from ever reaching the database.
+Completing this Student Registration System activity gave me a deeper appreciation for how important validation is in web development. Before this project, I understood validation as just "checking if a field is empty," but working through this activity showed me it goes far beyond that. While building the system, I actually ran into a MassAssignmentException because I forgot to define the `$fillable` property in my Student model — Laravel refused to save the data until I explicitly told it which fields were safe to mass-assign. That experience made it clear that validation and data protection aren't just formalities; they are built-in safeguards that prevent incomplete, incorrect, or unauthorized data from ever reaching the database.
 
 This project also taught me a lot about how user input should be handled. I learned that user input can never be fully trusted, no matter how well-designed the form looks. For example, the Student ID and email fields needed unique constraints to prevent two students from registering with the same identity, and the mobile number field needed numeric validation to stop letters or symbols from being entered. Seeing these rules actually reject bad input in real time — rather than just reading about them — helped me understand why enterprise systems like school registration platforms, banking systems, and hospital databases rely so heavily on strict validation rules to keep their records accurate and trustworthy.
 
-One of the most valuable lessons from this activity was understanding the difference between client-side and server-side validation. I implemented JavaScript validation on the registration form so students would get instant feedback — red borders and error messages — the moment they left a blank required field. This made the form feel more responsive and user-friendly. However, I also learned that client-side validation alone is not enough, because it can easily be bypassed by disabling JavaScript in the browser. Laravel's server-side validation, running through $request->validate(), is what actually protects the database, since the server never simply trusts what the browser sends. Having both layers working together gave me a clearer picture of how real-world applications balance user experience with security.
+One of the most valuable lessons from this activity was understanding the difference between client-side and server-side validation. I implemented JavaScript validation on the registration form so students would get instant feedback — red borders and error messages — the moment they left a blank required field. This made the form feel more responsive and user-friendly. However, I also learned that client-side validation alone is not enough, because it can easily be bypassed by disabling JavaScript in the browser. Laravel's server-side validation, running through `$request->validate()`, is what actually protects the database, since the server never simply trusts what the browser sends. Having both layers working together gave me a clearer picture of how real-world applications balance user experience with security.
 
-File security was another important concept I learned through the profile picture upload feature. Allowing users to upload files is inherently risky if left unrestricted — a malicious user could attempt to upload an executable file disguised as an image, or a very large file that strains server storage. By using Laravel's image, mimes:jpg,jpeg,png, and max:2048 validation rules, I was able to restrict uploads to actual image files under 2MB, significantly reducing the risk of harmful or oversized files being stored on the server. This showed me that file handling requires just as much care as text-based validation, if not more.
+File security was another important concept I learned through the profile picture upload feature. Allowing users to upload files is inherently risky if left unrestricted — a malicious user could attempt to upload an executable file disguised as an image, or a very large file that strains server storage. By using Laravel's `image`, `mimes:jpg,jpeg,png`, and `max:2048` validation rules, I was able to restrict uploads to actual image files under 2MB, significantly reducing the risk of harmful or oversized files being stored on the server. This showed me that file handling requires just as much care as text-based validation, if not more.
 
 Beyond the technical lessons, this activity helped me see how registration systems are used in real-world enterprise software. Schools use them to manage student records, hospitals use them to register patients, and banks use them to onboard new account holders — all relying on the same core principles of validation, secure storage, and reliable data handling that I practiced in this project. Along the way, I also ran into real setup challenges, such as my MySQL server running on a non-default port and having to fix a duplicated block of code in my controller file, both of which taught me to read error messages carefully and trace problems back to their root cause instead of guessing. Overall, this activity strengthened my understanding of how Laravel processes requests from start to finish, and gave me hands-on experience with the kind of secure, validated data handling that real-world applications depend on every day.
 
 ---
 
-## 11. References
+## 12. References
 
 Laravel. (n.d.). *Laravel documentation*. https://laravel.com/docs
 
